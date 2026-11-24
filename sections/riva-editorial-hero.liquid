@@ -2,25 +2,62 @@
   assign featured_product = section.settings.product
   assign hero_image = section.settings.image | default: featured_product.featured_image
   assign shop_link = section.settings.shop_link | default: routes.all_products_collection_url
+  assign heading_words = section.settings.heading | split: ' '
+  assign eyebrow = section.settings.eyebrow | default: shop.name
 -%}
-<section class="riva-hero page-width">
+<section class="riva-hero page-width" aria-labelledby="RivaHeroTitle-{{ section.id }}">
   <div class="riva-hero__layout">
+    <div class="riva-hero__ambient" aria-hidden="true"></div>
     <div class="riva-hero__copy">
-      <p class="riva-eyebrow">{{ shop.name | escape }}</p>
-      <h1>{{ section.settings.heading | escape }}</h1>
+      <p class="riva-eyebrow"><span class="riva-eyebrow__dot" aria-hidden="true"></span>{{ eyebrow | escape }}</p>
+      {%- comment -%} Each word is wrapped so the headline can rise word by word. The text reads normally to assistive technology. {%- endcomment -%}
+      <h1 class="riva-hero__title" id="RivaHeroTitle-{{ section.id }}">
+        {%- for word in heading_words -%}
+          <span class="riva-word"><span class="riva-word__inner" style="--i: {{ forloop.index0 }};">{{ word | escape }}</span></span>
+          {%- unless forloop.last %} {% endunless -%}
+        {%- endfor -%}
+      </h1>
       {%- if section.settings.description != blank -%}
         <p class="riva-hero__description">{{ section.settings.description | escape }}</p>
       {%- endif -%}
       <div class="riva-hero__links">
-        <a class="button" href="{{ shop_link }}">{{ section.settings.shop_label | escape }}</a>
+        <a class="button riva-magnetic" href="{{ shop_link }}">{{ section.settings.shop_label | escape }}</a>
         {%- if featured_product != blank and section.settings.product_label != blank -%}
           <a class="riva-text-link" href="{{ featured_product.url }}">{{ section.settings.product_label | escape }}&nbsp;<span aria-hidden="true">→</span></a>
         {%- endif -%}
       </div>
+      {%- if section.blocks.size > 0 -%}
+        <ul class="riva-hero__points" role="list">
+          {%- for block in section.blocks -%}
+            <li {{ block.shopify_attributes }}>
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false">
+                <circle cx="10" cy="10" r="8.25" stroke="currentColor" stroke-width="1.5"/>
+                <path d="m6.5 10.2 2.3 2.3 4.7-4.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              {{ block.settings.text | escape }}
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
     </div>
     {%- if hero_image != blank -%}
       <div class="riva-hero__media">
-        {{ hero_image | image_url: width: 1600 | image_tag: widths: '360, 540, 750, 1000, 1200, 1600', sizes: '(min-width: 1400px) 720px, (min-width: 750px) 54vw, 100vw', loading: 'eager', fetchpriority: 'high' }}
+        {{ hero_image | image_url: width: 1600 | image_tag: widths: '360, 540, 750, 1000, 1200, 1600', sizes: '(min-width: 1400px) 720px, (min-width: 750px) 54vw, 100vw', loading: 'eager', fetchpriority: 'high', alt: hero_image.alt | default: featured_product.title }}
+        {%- if featured_product != blank and section.settings.show_price_chip -%}
+          <a class="riva-hero__chip" href="{{ featured_product.url }}">
+            <span class="riva-hero__chip-label">{{ featured_product.title | escape }}</span>
+            <span class="riva-hero__chip-price">
+              {%- if featured_product.compare_at_price > featured_product.price -%}
+                <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
+              {%- endif -%}
+              {{ featured_product.price | money }}
+              {%- if featured_product.compare_at_price > featured_product.price -%}
+                <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
+                <s>{{ featured_product.compare_at_price | money }}</s>
+              {%- endif -%}
+            </span>
+          </a>
+        {%- endif -%}
       </div>
     {%- endif -%}
   </div>
@@ -29,15 +66,36 @@
 {% schema %}
 {
   "name": "Riva editorial hero",
+  "max_blocks": 4,
   "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "info": "Defaults to the store name." },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Better finds for everyday life" },
     { "type": "textarea", "id": "description", "label": "Description", "default": "Explore clever gadgets, home upgrades and essentials for your daily routine." },
     { "type": "text", "id": "shop_label", "label": "Shop button label", "default": "Shop all products" },
     { "type": "url", "id": "shop_link", "label": "Shop button link" },
     { "type": "product", "id": "product", "label": "Featured product" },
     { "type": "text", "id": "product_label", "label": "Featured product link label", "default": "View featured product" },
+    { "type": "checkbox", "id": "show_price_chip", "label": "Show featured product price on the image", "default": true },
     { "type": "image_picker", "id": "image", "label": "Image override" }
   ],
-  "presets": [{ "name": "Riva editorial hero" }]
+  "blocks": [
+    {
+      "type": "point",
+      "name": "Store promise",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Free shipping" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Riva editorial hero",
+      "blocks": [
+        { "type": "point", "settings": { "text": "Free shipping" } },
+        { "type": "point", "settings": { "text": "Cash on delivery" } },
+        { "type": "point", "settings": { "text": "Easy returns" } }
+      ]
+    }
+  ]
 }
 {% endschema %}

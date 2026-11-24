@@ -1,0 +1,63 @@
+{%- if section.blocks.size > 0 -%}
+  <section class="riva-promise page-width" aria-label="{{ section.settings.label | escape }}">
+    <ul class="riva-promise__list" role="list">
+      {%- for block in section.blocks -%}
+        <li class="riva-promise__item" data-riva-reveal style="--riva-stagger: {{ forloop.index0 }};" {{ block.shopify_attributes }}>
+          <span class="riva-promise__icon">{% render 'riva-icon', icon: block.settings.icon %}</span>
+          <span class="riva-promise__text">
+            <strong>{{ block.settings.title | escape }}</strong>
+            {%- if block.settings.text != blank -%}
+              <span>{{ block.settings.text | escape }}</span>
+            {%- endif -%}
+          </span>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Riva store promises",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "text", "id": "label", "label": "Accessible label", "default": "Store promises", "info": "Read by screen readers. Not shown on the page." }
+  ],
+  "blocks": [
+    {
+      "type": "promise",
+      "name": "Promise",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "default": "truck",
+          "options": [
+            { "value": "truck", "label": "Delivery truck" },
+            { "value": "return", "label": "Return arrow" },
+            { "value": "cash", "label": "Cash" },
+            { "value": "tag", "label": "Price tag" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "chat", "label": "Chat" },
+            { "value": "check", "label": "Check mark" }
+          ]
+        },
+        { "type": "text", "id": "title", "label": "Title", "default": "Free shipping" },
+        { "type": "text", "id": "text", "label": "Supporting text" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Riva store promises",
+      "blocks": [
+        { "type": "promise", "settings": { "icon": "truck", "title": "Free shipping", "text": "Dispatched within 48–72 hours" } },
+        { "type": "promise", "settings": { "icon": "cash", "title": "Cash on delivery", "text": "Available across India" } },
+        { "type": "promise", "settings": { "icon": "return", "title": "Easy returns", "text": "We'll make it right" } },
+        { "type": "promise", "settings": { "icon": "tag", "title": "Extra 10% off", "text": "On prepaid orders" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

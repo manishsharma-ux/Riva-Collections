@@ -1,7 +1,13 @@
 {%- if section.blocks.size > 0 -%}
+  {%- assign view_all_link = section.settings.link | default: routes.all_products_collection_url -%}
   <section class="riva-edits page-width" aria-labelledby="RivaEdits-{{ section.id }}">
-    <h2 id="RivaEdits-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
-    <ul class="riva-edits__grid list-unstyled">
+    <div class="riva-edits__header">
+      <h2 id="RivaEdits-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+      {%- if section.settings.link_label != blank -%}
+        <a class="riva-text-link" href="{{ view_all_link }}">{{ section.settings.link_label | escape }}&nbsp;<span aria-hidden="true">→</span></a>
+      {%- endif -%}
+    </div>
+    <ul class="riva-edits__grid" role="list">
       {%- for block in section.blocks -%}
         {%- liquid
           assign edit_product = block.settings.product
@@ -16,7 +22,12 @@
                 {{ edit_image | image_url: width: 900 | image_tag: widths: '240, 360, 540, 720, 900', sizes: '(min-width: 1400px) 320px, (min-width: 990px) 24vw, 48vw', loading: 'lazy', alt: '' }}
               </div>
             {%- endif -%}
-            <span class="riva-edit__label">{{ edit_label | escape }} <span class="riva-edit__arrow" aria-hidden="true">↗</span></span>
+            <span class="riva-edit__label">
+              <span>{{ edit_label | escape }}</span>
+              <span class="riva-edit__arrow" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" focusable="false"><path d="M4 10 10 4M5 4h5v5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </span>
           </a>
         </li>
       {%- endfor -%}
@@ -29,7 +40,9 @@
   "name": "Riva featured finds",
   "max_blocks": 8,
   "settings": [
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Explore our featured finds" }
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Explore our featured finds" },
+    { "type": "text", "id": "link_label", "label": "Link label", "default": "Shop all" },
+    { "type": "url", "id": "link", "label": "Link", "info": "Defaults to all products." }
   ],
   "blocks": [
     {

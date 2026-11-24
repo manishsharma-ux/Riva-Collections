@@ -1,0 +1,135 @@
+{%- liquid
+  assign story_product = section.settings.product
+  assign cta_link = section.settings.cta_link | default: story_product.url | default: routes.all_products_collection_url
+  assign step_count = section.blocks.size
+-%}
+{%- comment -%}
+  Product story. Without JavaScript, or with reduced motion, or below 990px, the steps render as a
+  static grid with an image in each step. On wider screens riva-motion.js loads GSAP and ScrollTrigger,
+  adds .is-enhanced, and turns the steps into a scroll-synced story beside a sticky image stage.
+{%- endcomment -%}
+<section
+  class="riva-story"
+  data-riva-story
+  data-gsap-src="{{ 'riva-gsap.min.js' | asset_url }}"
+  data-scroll-trigger-src="{{ 'riva-scrolltrigger.min.js' | asset_url }}"
+  aria-labelledby="RivaStory-{{ section.id }}"
+>
+  <div class="page-width">
+    <div class="riva-story__panel">
+      <header class="riva-story__intro">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="riva-eyebrow"><span class="riva-eyebrow__dot" aria-hidden="true"></span>{{ section.settings.eyebrow | escape }}</p>
+        {%- endif -%}
+        <h2 id="RivaStory-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+        {%- if section.settings.text != blank -%}
+          <p>{{ section.settings.text | escape }}</p>
+        {%- endif -%}
+      </header>
+
+      {%- if step_count > 0 -%}
+        <div class="riva-story__body">
+          <div class="riva-story__stage" aria-hidden="true">
+            <div class="riva-story__frames">
+              {%- for block in section.blocks -%}
+                {%- liquid
+                  assign media_index = block.settings.product_media | default: forloop.index | minus: 1
+                  assign step_image = block.settings.image | default: story_product.media[media_index].preview_image | default: story_product.featured_image
+                -%}
+                <div class="riva-story__frame{% if forloop.first %} is-active{% endif %}">
+                  {%- if step_image != blank -%}
+                    {{ step_image | image_url: width: 1200 | image_tag: widths: '540, 720, 900, 1200', sizes: '(min-width: 1400px) 620px, 46vw', loading: 'lazy', alt: '' }}
+                  {%- endif -%}
+                </div>
+              {%- endfor -%}
+            </div>
+            <div class="riva-story__rail">
+              <span class="riva-story__current" data-riva-story-current>01</span>
+              <span class="riva-story__track"><span class="riva-story__progress" data-riva-story-progress></span></span>
+              <span>{{ step_count | prepend: '0' | slice: -2, 2 }}</span>
+            </div>
+          </div>
+
+          <ol class="riva-story__steps" role="list">
+            {%- for block in section.blocks -%}
+              {%- liquid
+                assign media_index = block.settings.product_media | default: forloop.index | minus: 1
+                assign step_image = block.settings.image | default: story_product.media[media_index].preview_image | default: story_product.featured_image
+              -%}
+              <li class="riva-story__step{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }}>
+                {%- if step_image != blank -%}
+                  <div class="riva-story__step-media">
+                    {{ step_image | image_url: width: 900 | image_tag: widths: '360, 540, 720, 900', sizes: '(min-width: 750px) 44vw, 100vw', loading: 'lazy', alt: '' }}
+                  </div>
+                {%- endif -%}
+                <span class="riva-story__index" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+                <h3>{{ block.settings.title | escape }}</h3>
+                {%- if block.settings.text != blank -%}
+                  <p>{{ block.settings.text | escape }}</p>
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ol>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.cta_label != blank -%}
+        <div class="riva-story__cta">
+          {%- if story_product != blank -%}
+            <div class="riva-story__product">
+              <span class="riva-story__product-title">{{ story_product.title | escape }}</span>
+              <span class="riva-price">
+                {%- if story_product.compare_at_price > story_product.price -%}
+                  <span class="visually-hidden">{{ 'products.product.price.sale_price' | t }}</span>
+                {%- endif -%}
+                {{ story_product.price | money }}
+                {%- if story_product.compare_at_price > story_product.price -%}
+                  <span class="visually-hidden">{{ 'products.product.price.regular_price' | t }}</span>
+                  <s>{{ story_product.compare_at_price | money }}</s>
+                {%- endif -%}
+              </span>
+            </div>
+          {%- endif -%}
+          <a class="button riva-magnetic" href="{{ cta_link }}">{{ section.settings.cta_label | escape }}</a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Riva product story",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Featured find" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "See how it fits your day" },
+    { "type": "textarea", "id": "text", "label": "Introduction" },
+    { "type": "product", "id": "product", "label": "Product", "info": "Steps without an image use this product's media in order." },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Shop now" },
+    { "type": "url", "id": "cta_link", "label": "Button link", "info": "Defaults to the product." }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Story step",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "range", "id": "product_media", "label": "Product image to use when no image is selected", "min": 1, "max": 10, "step": 1, "default": 1 },
+        { "type": "text", "id": "title", "label": "Title", "default": "Show the detail that matters" },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Describe what this detail does for the shopper in one or two sentences." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Riva product story",
+      "blocks": [
+        { "type": "step", "settings": { "product_media": 1 } },
+        { "type": "step", "settings": { "product_media": 2 } },
+        { "type": "step", "settings": { "product_media": 3 } }
+      ]
+    }
+  ]
+}
+{% endschema %}

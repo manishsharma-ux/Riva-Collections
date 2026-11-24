@@ -1,0 +1,32 @@
+{%- comment -%}
+  Outline icons for Riva sections. Each shape sets pathLength="1" so CSS can draw it in.
+  Usage: {% render 'riva-icon', icon: 'truck' %}
+{%- endcomment -%}
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  {%- case icon -%}
+    {%- when 'truck' -%}
+      <path pathLength="1" d="M2.75 6.25h11v10h-11z"/>
+      <path pathLength="1" d="M13.75 9.25h3.7l3.8 3.8v3.2h-7.5"/>
+      <circle pathLength="1" cx="7" cy="17.5" r="1.9"/>
+      <circle pathLength="1" cx="17.25" cy="17.5" r="1.9"/>
+    {%- when 'return' -%}
+      <path pathLength="1" d="M8.5 6.5 4.5 10.5l4 4"/>
+      <path pathLength="1" d="M4.5 10.5h10a4.75 4.75 0 0 1 0 9.5H11"/>
+    {%- when 'cash' -%}
+      <path pathLength="1" d="M4.75 6.25h14.5a2 2 0 0 1 2 2v7.5a2 2 0 0 1-2 2H4.75a2 2 0 0 1-2-2v-7.5a2 2 0 0 1 2-2z"/>
+      <circle pathLength="1" cx="12" cy="12" r="2.6"/>
+      <path pathLength="1" d="M6.25 9.5v5M17.75 9.5v5"/>
+    {%- when 'tag' -%}
+      <path pathLength="1" d="M3.25 12.1V4.25a1 1 0 0 1 1-1h7.85l8.6 8.6a1 1 0 0 1 0 1.4l-7.45 7.45a1 1 0 0 1-1.4 0z"/>
+      <circle pathLength="1" cx="7.75" cy="7.75" r="1.5"/>
+    {%- when 'shield' -%}
+      <path pathLength="1" d="M12 3 4.75 5.9v5.6c0 4.4 3.1 7.8 7.25 9.5 4.15-1.7 7.25-5.1 7.25-9.5V5.9z"/>
+      <path pathLength="1" d="m8.75 12 2.3 2.3 4.2-4.4"/>
+    {%- when 'chat' -%}
+      <path pathLength="1" d="M4.25 6.25a2 2 0 0 1 2-2h11.5a2 2 0 0 1 2 2v8.25a2 2 0 0 1-2 2H10l-4.25 3.5v-3.5h-.5a1 1 0 0 1-1-1z"/>
+      <path pathLength="1" d="M8.25 9.5h7.5M8.25 12.5h4.5"/>
+    {%- else -%}
+      <circle pathLength="1" cx="12" cy="12" r="8.75"/>
+      <path pathLength="1" d="m8.5 12.2 2.4 2.4 4.6-4.9"/>
+  {%- endcase -%}
+</svg>

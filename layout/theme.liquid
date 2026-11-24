@@ -4,6 +4,30 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    {%- comment -%}
+      Riva motion bootstrap. It sits at the top of <head> because app markup later in the head can make
+      the browser close <head> early, and both of these must be parsed before the first paint.
+    {%- endcomment -%}
+    <style>
+      @media (prefers-reduced-motion: no-preference) {
+        @view-transition {
+          navigation: auto;
+        }
+      }
+    </style>
+    {%- unless request.design_mode -%}
+      <script>
+        (function () {
+          var html = document.documentElement;
+          if (!window.matchMedia || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+          html.classList.add('riva-motion');
+          /* Show everything if riva-motion.js has not started within 3 seconds. */
+          setTimeout(function () {
+            if (!window.RivaMotion) html.classList.remove('riva-motion');
+          }, 3000);
+        })();
+      </script>
+    {%- endunless -%}
     <meta name="theme-color" content="">
     <meta name="facebook-domain-verification" content="lmykhtm1wpdmq44lxm9sun1k3vbyw4" />
     <link rel="canonical" href="{{ canonical_url }}">
@@ -43,7 +67,8 @@
 
     <script src="https://js.shrinetheme.com/js/v2/main.js" defer="defer" data-defer="true" data-is-rtl="{{ is_rtl }}" data-country-list-function="{{ settings.country_list_function }}" data-country-list="{{ settings.country_list }}" data-country-list-error="{{ settings.country_invalid_error_msg }}" data-animations-type="{{ settings.animations_type }}"></script>
     <script src="{{ 'secondary.js' | asset_url }}" defer="defer" data-defer="true" data-is-rtl="{{ is_rtl }}"></script>
-    
+    <script src="{{ 'riva-motion.js' | asset_url }}" defer="defer"></script>
+
     <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -526,6 +551,7 @@ y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
 </head>
 
   <body class="gradient riva-template--{{ request.page_type | handle }} link-btns--{{ settings.link_btn_hover }} action-btns--{{ settings.action_btn_hover }}"{% if is_rtl %} data-rtl="true"{% endif %}>
+    <div class="riva-progress" aria-hidden="true"></div>
 
 
     {%comment %}
