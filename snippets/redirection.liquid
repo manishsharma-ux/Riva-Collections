@@ -1,0 +1,27 @@
+{% if request.host == 'www.boonleaf.com' %}
+  <script>
+window.location = "https://boonleaf.com/products/garden-art-lucky-bamboo-live-plant";  
+  </script>
+    {% endif %}
+
+{% if request.host == 'boonleaf.com' and template == 'index' %}
+<script>
+window.location = "https://boonleaf.com/products/garden-art-lucky-bamboo-live-plant";  
+</script>
+  {% elsif request.host == 'www.galleriahq.com' %}
+   <script>
+window.location = "https://galleriahq.com";  
+  </script>
+  {% else %}
+
+  {% endif %}
+  
+
+     {%- if product.tags contains "hide-menu" -%}
+  <style>
+    .header__inline-menu
+    {
+      display:none!important;
+    }
+  </style>
+  {% endif %}

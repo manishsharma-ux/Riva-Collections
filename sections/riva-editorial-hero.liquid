@@ -1,0 +1,43 @@
+{%- liquid
+  assign featured_product = section.settings.product
+  assign hero_image = section.settings.image | default: featured_product.featured_image
+  assign shop_link = section.settings.shop_link | default: routes.all_products_collection_url
+-%}
+<section class="riva-hero page-width">
+  <div class="riva-hero__layout">
+    <div class="riva-hero__copy">
+      <p class="riva-eyebrow">{{ shop.name | escape }}</p>
+      <h1>{{ section.settings.heading | escape }}</h1>
+      {%- if section.settings.description != blank -%}
+        <p class="riva-hero__description">{{ section.settings.description | escape }}</p>
+      {%- endif -%}
+      <div class="riva-hero__links">
+        <a class="button" href="{{ shop_link }}">{{ section.settings.shop_label | escape }}</a>
+        {%- if featured_product != blank and section.settings.product_label != blank -%}
+          <a class="riva-text-link" href="{{ featured_product.url }}">{{ section.settings.product_label | escape }}&nbsp;<span aria-hidden="true">→</span></a>
+        {%- endif -%}
+      </div>
+    </div>
+    {%- if hero_image != blank -%}
+      <div class="riva-hero__media">
+        {{ hero_image | image_url: width: 1600 | image_tag: widths: '360, 540, 750, 1000, 1200, 1600', sizes: '(min-width: 1400px) 720px, (min-width: 750px) 54vw, 100vw', loading: 'eager', fetchpriority: 'high' }}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Riva editorial hero",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Better finds for everyday life" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Explore clever gadgets, home upgrades and essentials for your daily routine." },
+    { "type": "text", "id": "shop_label", "label": "Shop button label", "default": "Shop all products" },
+    { "type": "url", "id": "shop_link", "label": "Shop button link" },
+    { "type": "product", "id": "product", "label": "Featured product" },
+    { "type": "text", "id": "product_label", "label": "Featured product link label", "default": "View featured product" },
+    { "type": "image_picker", "id": "image", "label": "Image override" }
+  ],
+  "presets": [{ "name": "Riva editorial hero" }]
+}
+{% endschema %}

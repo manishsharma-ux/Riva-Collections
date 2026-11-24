@@ -1,0 +1,80 @@
+<script> 
+function getCookie(cname) {
+  let name = cname + "=";
+  let ca = document.cookie.split(';');
+  for(let i = 0; i < ca.length; i++) {
+    let c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+function updateCartAttributes(attributes) {
+    fetch('/cart/update.js', {
+        method: "POST",
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'Content-Type': 'application/json;'
+        },
+        body: JSON.stringify({
+            attributes: attributes
+        })
+    })
+}
+
+function getUtmAttributes() {
+    var utm_ip = getCookie("vc-ip");
+    var vc_click_id = getCookie("vc-click");
+
+    return {
+        utm_source: getCookie("vc-source"),
+        utm_medium: getCookie("vc-medium"),
+        utm_campaign: getCookie("vc-campaign"),
+        utm_content: getCookie("utm_content_fb"),
+        campaign_id: window.TrackierWebSDK.getUrlParam('campaign_id'),
+        pub_id: window.TrackierWebSDK.getUrlParam('pub_id'),
+        fbclid: window.TrackierWebSDK.getUrlParam('fbclid'),
+        gclid: window.TrackierWebSDK.getUrlParam('gclid'),
+        aff_cid: vc_click_id,
+        browser_ip: utm_ip
+    }
+}
+
+// set attributes on page load
+$(document).ready(function() {
+    if (!window.__isCartUpdated) {
+        var attributes = getUtmAttributes();
+        updateCartAttributes(attributes);
+    }
+})
+
+function updatecart(clickId) {
+    var attributes = getUtmAttributes();  
+    attributes.tr_click_id = clickId;
+    updateCartAttributes(attributes);
+    window.__isCartUpdated = true;
+}
+
+// set the callback
+// TODO: set this before calling window.TrackierWebSDK.trackClick
+
+window.TrackierWebSDK.setClickPixelCb(function (clickId) {
+    updatecart(clickId);
+})
+
+  
+</script>
+
+<script>
+   $(".skipcart").click(function(){      
+      //  updatecart();
+        //button.addClass("active")
+      $('.skipcart').addClass('hbt');
+      $('.skipf').submit();
+    });
+</script>

@@ -1,0 +1,126 @@
+<style>
+  .col-12.product__stock.margin__bottom--reduced {
+      display: flex
+  ;
+      align-items: center;
+  }
+
+  .product__stock .amount--text span {
+      font-weight: 700;
+      color:rgb(var(--accent-color));
+      animation: blink 2s infinite;
+    width: 22px;
+    display: inline-block;
+    text-align: center;
+  }
+
+  .product__stock .amount, .sh__percentage .amount {
+      flex: 1;
+      background: #f7f7f7;
+      height: 0.8em;
+      display: inline-block;
+      margin-left: 8px !important;
+  }
+
+  .product__stock .amount .amount--left, .sh__percentage .amount .amount--left {
+      display: block;
+      width: 20%;
+      background:rgb(var(--accent-color));
+      height: 100%;
+      border-radius:20px;
+  }
+
+  @keyframes blink{0%{opacity:1}50%{opacity:0.5}100%{opacity:1}}
+</style>
+
+<div class="col-12 product__stock margin__bottom--reduced" bis_skin_checked="1">
+  <span class="amount--text">
+    <span id="random-number"></span>
+    LEFT IN STOCK</span
+  >
+  <span class="amount"><span class="amount--left" id="progress-fill"></span></span>
+</div>
+<!--
+  <script>
+      (function() {
+          document.addEventListener("DOMContentLoaded", function() {
+              let num = Math.floor(Math.random() * 7) + 4;
+              console.log("Unique Number:", num);
+              (document.getElementById("unique-number-display") ||
+               Object.assign(document.body.appendChild(document.createElement("div")), { id: "unique-number-display" }))
+              .innerText = num;
+          });
+      })();
+    </script>
+
+
+  <style>
+    .random-number-container {
+      text-align: center;
+      margin: 20px;
+    	display: flex;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 20px;
+      background-color: #ddd;
+      margin-top: 10px;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background-color: #4CAF50;
+      transition: width 1.5s;
+    }
+
+    #random-number {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  </style>
+
+  <div class="random-number-container">
+    <p id="random-number"></p>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+  </div>
+-->
+<script>
+  function generateRandomNumber() {
+    let progressBar = document.getElementById("progress-fill");
+    let randomNumberElement = document.getElementById("random-number");
+
+    // Generate a random number (1-10)
+    let randomNum = Math.floor(Math.random() * 9) + 2;
+
+    // Convert number to percentage (1 = 10%, 10 = 100%)
+    let progressWidth = randomNum * 10 + "%";
+
+    // Reset and animate progress bar
+    progressBar.style.width = "0%";
+    setTimeout(() => {
+      progressBar.style.width = progressWidth;
+    }, 100);
+
+    // Show number after progress completes
+    setTimeout(() => {
+      randomNumberElement.textContent =  randomNum;
+    }, 0);
+  }
+
+  // Generate number on page load
+  document.addEventListener("DOMContentLoaded", generateRandomNumber);
+</script>

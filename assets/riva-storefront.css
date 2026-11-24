@@ -1,0 +1,564 @@
+/* Display type uses a serif at 32–88px. Commerce controls retain the theme's body font. */
+:root {
+  --riva-display: Georgia, 'Times New Roman', serif;
+  --riva-motion-fast: 160ms;
+  --riva-motion-enter: 480ms;
+  --riva-motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --riva-rule: rgba(var(--color-foreground), 0.18);
+}
+
+.riva-hero,
+.riva-edits {
+  padding-block: clamp(2.4rem, 4vw, 6.4rem);
+}
+
+.riva-hero__layout {
+  display: grid;
+  background: rgb(var(--color-base-background-2));
+}
+
+.riva-hero__copy {
+  align-self: center;
+  padding: clamp(2.4rem, 5vw, 7.2rem);
+}
+
+.riva-eyebrow {
+  margin: 0 0 1.6rem;
+  color: rgb(var(--color-base-outline-button-labels));
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.riva-hero h1,
+.riva-edits h2,
+.riva-template--index .collection__title .title,
+.riva-template--index .title-wrapper-with-link > .title,
+.collection-hero__title,
+.template-search__header h1,
+.product__title h1,
+.cart__empty-text,
+.title--primary {
+  font-family: var(--riva-display);
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.riva-hero h1 {
+  max-width: 12ch;
+  margin: 0;
+  font-size: clamp(4rem, 5.8vw, 8.8rem);
+}
+
+.riva-hero__description {
+  max-width: 36ch;
+  margin: 2.4rem 0;
+  font-size: clamp(1.6rem, 1.3vw, 2rem);
+  line-height: 1.5;
+}
+
+.riva-hero__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem 2.4rem;
+  margin-block-start: 2.4rem;
+}
+
+.riva-text-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: rgb(var(--color-base-outline-button-labels));
+  text-decoration: underline;
+  text-underline-offset: 0.35em;
+}
+
+.riva-hero__media {
+  display: grid;
+  align-items: center;
+  background: rgba(var(--color-base-text), 0.06);
+}
+
+.riva-hero__media img {
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  object-fit: contain;
+}
+
+.riva-edits h2,
+.riva-template--index .collection__title .title {
+  margin-block: 0 2.4rem;
+  font-size: clamp(3.2rem, 4vw, 5.6rem);
+}
+
+.riva-edits__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.6rem;
+  margin: 0;
+}
+
+.riva-edits__grid > li {
+  display: flex;
+}
+
+.riva-edit {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  border-block-end: 1px solid var(--riva-rule);
+  color: rgb(var(--color-foreground));
+  text-decoration: none;
+}
+
+.riva-edit__media {
+  overflow: hidden;
+  background: rgb(var(--color-base-background-2));
+}
+
+.riva-edit__media img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+.riva-edit__label {
+  display: flex;
+  min-height: 4.8rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding-block: 0.8rem;
+  font-size: clamp(1.4rem, 1.3vw, 1.8rem);
+  line-height: 1.25;
+}
+
+.riva-edit:hover .riva-edit__label {
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+}
+
+.header__icon {
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.product-card-wrapper .card__heading {
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.card-information .price,
+.product__info-container .price,
+.cart-item__price-wrapper,
+.totals {
+  font-variant-numeric: tabular-nums;
+}
+
+.collection-hero__title,
+.template-search__header h1,
+.title--primary {
+  font-size: clamp(3.2rem, 4.5vw, 6.4rem);
+}
+
+.product__title h1 {
+  font-size: clamp(3.2rem, 3.4vw, 4.8rem);
+}
+
+.product__info-container .product-form__submit,
+.cart__checkout-button {
+  min-height: 4.8rem;
+}
+
+.footer .footer-block__heading {
+  font-size: 1.8rem;
+  letter-spacing: 0;
+}
+
+.riva-edit:focus-visible,
+.riva-text-link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+@media (min-width: 750px) {
+  .riva-hero__layout:has(.riva-hero__media) {
+    grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+  }
+
+  .riva-edits__grid {
+    gap: 2.4rem;
+  }
+}
+
+@media (min-width: 990px) {
+  .riva-edits__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Keep copy visible during entrances. The hero image paints at rest. */
+@media (prefers-reduced-motion: no-preference) {
+  .riva-hero__copy > * {
+    animation: riva-enter var(--riva-motion-enter) var(--riva-motion-ease) both;
+  }
+
+  .riva-hero h1 {
+    animation-delay: 40ms;
+  }
+
+  .riva-hero__description {
+    animation-delay: 80ms;
+  }
+
+  .riva-hero__links {
+    animation-delay: 120ms;
+  }
+
+  .riva-hero__links:focus-within {
+    animation: none;
+  }
+
+  .riva-hero__links .button,
+  .product__info-container .product-form__submit,
+  .cart__checkout-button {
+    transition-property: scale;
+    transition-duration: var(--riva-motion-fast);
+    transition-timing-function: var(--riva-motion-ease);
+  }
+
+  .riva-hero__links .button:active,
+  .product__info-container .product-form__submit:enabled:active,
+  .cart__checkout-button:enabled:active {
+    scale: 0.98;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  .riva-edit__media img {
+    transition: transform 320ms var(--riva-motion-ease);
+  }
+
+  .riva-edit:hover .riva-edit__media img {
+    transform: scale(1.045);
+  }
+
+  .riva-edit__arrow,
+  .riva-text-link > span {
+    display: inline-block;
+    transition: translate var(--riva-motion-fast) var(--riva-motion-ease);
+  }
+
+  .riva-edit:hover .riva-edit__arrow,
+  .riva-text-link:hover > span {
+    translate: 0.25em;
+  }
+
+  [data-rtl="true"] .riva-edit:hover .riva-edit__arrow,
+  [data-rtl="true"] .riva-text-link:hover > span {
+    translate: -0.25em;
+  }
+}
+
+/* The view timeline is progressive enhancement. Older browsers render still cards. */
+@supports (animation-timeline: view()) and (animation-range: entry 0% cover 25%) {
+  @media (prefers-reduced-motion: no-preference) {
+    .riva-edits__grid > li {
+      animation: riva-enter linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 25%;
+    }
+
+    .riva-edits__grid > li:focus-within {
+      animation: none;
+    }
+  }
+}
+
+@keyframes riva-enter {
+  from {
+    opacity: 0.88;
+    transform: translateY(0.8rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Warm glass uses the current color scheme so merchant color settings still apply. */
+:root {
+  --riva-radius: 1.6rem;
+  --riva-radius-feature: clamp(1.6rem, 2.4vw, 3.2rem);
+  --riva-glass-blur: 16px;
+  --riva-glass-alpha: 0.9;
+  --riva-glass-edge: inset 0 1px 0 rgba(255, 255, 255, 0.38);
+  --riva-elevation: 0 12px 32px rgba(var(--color-base-text), 0.10);
+  --riva-motion-surface: 320ms;
+}
+
+.riva-hero__layout {
+  border: 1px solid rgba(var(--color-base-text), 0.09);
+  border-radius: var(--riva-radius-feature);
+  background:
+    radial-gradient(ellipse at 2% 6%, rgba(var(--color-base-accent-2), 0.15), transparent 52%),
+    radial-gradient(ellipse at 96% 100%, rgba(var(--color-base-accent-1), 0.12), transparent 60%),
+    rgb(var(--color-base-background-2));
+  box-shadow: var(--riva-glass-edge), var(--riva-elevation);
+}
+
+.riva-hero__copy {
+  min-width: 0;
+}
+
+.riva-eyebrow {
+  display: inline-flex;
+  padding: 0.65rem 1.15rem;
+  border: 1px solid rgba(var(--color-base-accent-1), 0.16);
+  border-radius: 99px;
+  background: rgba(var(--color-base-background-1), 0.68);
+  box-shadow: var(--riva-glass-edge);
+}
+
+.riva-hero__media {
+  min-width: 0;
+  margin: 0 1.2rem 1.2rem;
+  overflow: hidden;
+  border: 1px solid rgba(var(--color-base-text), 0.10);
+  border-radius: calc(var(--riva-radius-feature) - 0.6rem);
+  background:
+    radial-gradient(ellipse at 45% 28%, rgba(var(--color-base-background-1), 0.96), transparent 72%),
+    rgba(var(--color-base-background-1), 0.38);
+  box-shadow: var(--riva-glass-edge);
+}
+
+.riva-edit {
+  border: 1px solid rgba(var(--color-base-text), 0.12);
+  border-radius: var(--riva-radius);
+  background: rgb(var(--color-base-background-1));
+  box-shadow: var(--riva-glass-edge), 0 4px 16px rgba(var(--color-base-text), 0.06);
+}
+
+.riva-edit__media {
+  border-start-start-radius: calc(var(--riva-radius) - 1px);
+  border-start-end-radius: calc(var(--riva-radius) - 1px);
+}
+
+.riva-edit__label {
+  padding-inline: clamp(0.8rem, 1.2vw, 1.6rem);
+  font-weight: 600;
+}
+
+.riva-edit__arrow {
+  flex: none;
+  color: rgb(var(--color-base-outline-button-labels));
+}
+
+.header-wrapper {
+  background-attachment: scroll;
+}
+
+/* Keep the filter on the decorative layer, outside the header's fixed controls. */
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .header-wrapper.color-background-1 {
+    isolation: isolate;
+    background: transparent;
+  }
+
+  .header-wrapper.color-background-1::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    pointer-events: none;
+    background: rgba(var(--color-background), var(--riva-glass-alpha));
+    -webkit-backdrop-filter: blur(var(--riva-glass-blur));
+    backdrop-filter: blur(var(--riva-glass-blur));
+    box-shadow: var(--riva-glass-edge);
+  }
+
+  .header__submenu.list-menu--disclosure,
+  .search-modal .predictive-search,
+  .template-search .predictive-search,
+  .cart-notification-wrapper .cart-notification,
+  .facets .facets__display {
+    background: rgba(var(--color-background), 0.96);
+    -webkit-backdrop-filter: blur(var(--riva-glass-blur));
+    backdrop-filter: blur(var(--riva-glass-blur));
+  }
+}
+
+:where(.header-wrapper) .header__menu-item {
+  font-weight: 600;
+  text-underline-offset: 0.45em;
+}
+
+:where(.header-wrapper) .header__menu-item:hover,
+:where(.header-wrapper) .header__menu-item:focus-visible {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+
+.header__submenu.list-menu--disclosure,
+.search-modal .predictive-search,
+.template-search .predictive-search,
+.cart-notification-wrapper .cart-notification,
+.facets .facets__display {
+  border-color: rgba(var(--color-foreground), 0.16);
+  box-shadow: var(--riva-glass-edge), var(--riva-elevation);
+}
+
+.collection-hero.color-background-1,
+.riva-template--search .template-search__header {
+  background:
+    radial-gradient(ellipse at 0 0, rgba(var(--color-base-accent-2), 0.12), transparent 58%),
+    linear-gradient(120deg, rgba(var(--color-base-background-2), 0.88), transparent 78%),
+    rgb(var(--color-base-background-1));
+  border-block-end: 1px solid rgba(var(--color-base-text), 0.10);
+}
+
+:is(.product-card-wrapper, .collection-card-wrapper, .article-card-wrapper) .card {
+  --border-radius: var(--riva-radius);
+}
+
+:is(.product-card-wrapper, .collection-card-wrapper, .article-card-wrapper) .card--standard .card__inner {
+  background: rgb(var(--color-base-background-2));
+  box-shadow: var(--riva-glass-edge), 0 5px 16px rgba(var(--color-base-text), 0.08);
+}
+
+.product-card-wrapper .card__heading {
+  font-size: clamp(1.45rem, 1.3vw, 1.75rem);
+  font-weight: 600;
+}
+
+.product__media-list .product__media {
+  border-radius: var(--riva-radius);
+  background-color: rgb(var(--color-base-background-2));
+  box-shadow: var(--riva-glass-edge);
+}
+
+.product-card-wrapper .price {
+  font-weight: 600;
+}
+
+.product__title h1,
+.cart__empty-text,
+.customer h1,
+.article-template__title,
+.main-page-title {
+  text-wrap: balance;
+}
+
+.customer h1,
+.article-template__title,
+.main-page-title,
+.password-header .h2 {
+  font-family: var(--riva-display);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+}
+
+.product__info-container .product-form__submit.button,
+.cart__checkout-button.button,
+.riva-hero__links .button {
+  border-radius: var(--buttons-radius-outset);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24), 0 6px 16px rgba(var(--color-base-accent-1), 0.18);
+}
+
+#main-cart-footer .cart__blocks {
+  padding: clamp(1.6rem, 2.4vw, 2.4rem);
+  border: 1px solid rgba(var(--color-foreground), 0.12);
+  border-radius: var(--riva-radius);
+  background: rgba(var(--color-foreground), 0.035);
+  box-shadow: var(--riva-glass-edge);
+}
+
+footer.footer.color-inverse {
+  background:
+    radial-gradient(ellipse at 100% 0, rgba(var(--color-base-accent-2), 0.35), transparent 70%),
+    rgb(var(--color-background));
+}
+
+.riva-hero :is(.button, .riva-text-link):focus-visible,
+.riva-edit:focus-visible {
+  outline: 2px solid rgb(var(--color-base-outline-button-labels));
+  outline-offset: 4px;
+}
+
+@media (min-width: 750px) {
+  .riva-hero__media {
+    margin: 1.2rem;
+    margin-inline-start: 0;
+  }
+}
+
+@media (max-width: 749px) {
+  :root {
+    --riva-glass-blur: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .riva-hero__media {
+    animation: riva-media-enter 560ms var(--riva-motion-ease) both;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  .riva-edit {
+    transition: translate var(--riva-motion-surface) var(--riva-motion-ease),
+      box-shadow var(--riva-motion-surface) var(--riva-motion-ease);
+  }
+
+  .riva-edit:hover {
+    translate: 0 -0.3rem;
+    box-shadow: var(--riva-glass-edge), var(--riva-elevation);
+  }
+
+  :is(.product-card-wrapper, .collection-card-wrapper, .article-card-wrapper) .card--standard .card__inner {
+    transition: box-shadow var(--riva-motion-surface) var(--riva-motion-ease);
+  }
+
+  :is(.product-card-wrapper, .collection-card-wrapper, .article-card-wrapper):hover .card--standard .card__inner {
+    box-shadow: var(--riva-glass-edge), var(--riva-elevation);
+  }
+}
+
+@keyframes riva-media-enter {
+  from { opacity: 0.92; }
+  to { opacity: 1; }
+}
+
+@media (forced-colors: active) {
+  .header-wrapper.color-background-1 {
+    background: Canvas;
+  }
+
+  .header-wrapper.color-background-1::before {
+    content: none;
+  }
+
+  .riva-edit,
+  .riva-hero__layout,
+  #main-cart-footer .cart__blocks {
+    border-color: CanvasText;
+  }
+
+  .riva-hero :is(.button, .riva-text-link):focus-visible,
+  .riva-edit:focus-visible {
+    outline-color: Highlight;
+  }
+}

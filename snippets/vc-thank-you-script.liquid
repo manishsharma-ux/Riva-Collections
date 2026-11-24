@@ -1,0 +1,86 @@
+<script>  
+  var qs = (function(a) {
+    if (a == "") return {};
+    var b = {};
+    for (var i = 0; i < a.length; ++i)
+    {
+        var p=a[i].split('=', 2);
+        if (p.length == 1)
+            b[p[0]] = "";
+        else
+            b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+    }
+    return b;
+})(window.location.search.substr(1).split('&'))  
+     
+  function setCookie(cname, cvalue, exdays) {
+      const d = new Date();
+      d.setTime(d.getTime() + (exdays*24*60*60*1000));
+      let expires = "expires="+d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+      }
+      function getCookie(cname) {
+      let name = cname + "=";
+      let ca = document.cookie.split(';');
+      for(let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+      }
+      }
+      return "";
+      }
+
+
+
+      if(location.search.indexOf("order_id")!= -1)
+      {             
+      let order_id = qs["order_id"];
+        let order_number = qs["order_number"];
+        let new_order_number = order_number.replace('#', '');
+        let p_title = qs["p_title"];
+         let vc_utm = getCookie("vc-source");
+         //let s_amount = qs["s_amount"];
+        //alert(p_title);
+        let v_sale;
+
+if (p_title === 'SP 4 Ultra Brightening Toothpaste - Buy Two') {        
+    v_sale = '899';
+} else if (p_title === 'SP 4 Ultra Brightening Toothpaste - Buy Three') {
+    v_sale = '1299';
+} else {
+    v_sale = '499';
+}
+        
+        document.getElementById("orderId").innerHTML = "Order No:" +order_number;
+ let trclid = getCookie("__tr_clid"); 
+          //alert(trclid);
+       let url ="https://track.vcommission.com/pixel?av=656dc7fa96020c672669db2d&sale_amount="+v_sale+"&txn_id="+order_id+"&sub1="+new_order_number+"&sub2=COD&utmc=trackier_&click_id="+trclid;
+       // alert(url);
+
+      if (vc_utm != undefined && vc_utm == "vcommission") {
+  let iframeHtml2 = '<iframe src="'+url+'" scrolling="no" frameborder="0" width="1" height="1"></iframe>';
+setTimeout(()=>{ document.body.insertAdjacentHTML("beforeend", iframeHtml2);},1000);
+ }  
+     
+   
+      }
+      </script>
+
+{% comment %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function(){
+  if(location.search.indexOf("order_number")!= -1)
+      {          
+    
+        let order_number = qs["order_number"];
+  $('#orderId').text("Order No:" +order_number);
+      }
+});
+</script> 
+
+{% endcomment %}

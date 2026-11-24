@@ -1,0 +1,205 @@
+<script>
+fbpixelid = '';
+document.addEventListener("DOMContentLoaded", (event) => {  
+window.top.location.search.split("&").forEach(function(a){
+    if(a.split("=")[0] == "utm_term"){
+     //alert('Test');
+          var fbpixelid = a.split("=")[1];
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', fbpixelid);
+fbq('track', 'PageView');     
+      fbq('track', 'ViewContent');   
+      let iframe = document.querySelector("#noscriptId");
+  iframe.src = "https://www.facebook.com/tr?id="+fbpixelid+"&ev=PageView&noscript=1"
+    }
+  
+})
+});
+document.addEventListener("DOMContentLoaded", (event) => {  
+window.top.location.search.split("&").forEach(function(a){
+  if (a.split("=")[0] == "utm_gtm") {
+    //alert('Test');
+             var gtmid = a.split("=")[1];   
+             initgtm(window, document, 'script', 'dataLayer', gtmid);
+             try {
+                 window.dataLayer.push({
+                     'event': 'PageView'
+                 });
+             } catch (e) {
+
+
+             }
+         }  
+ })
+}); 
+</script>
+<noscript><img id="noscriptId" height="1" width="1" style="display:none"
+  src=""
+  /></noscript>
+<script>
+var initgtm = function(w, d, s, l, i) { w[l] = w[l] || []; w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' }); var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l !== 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f); };
+</script>
+  <script>  
+  var qs = (function(a) {
+    if (a == "") return {};
+    var b = {};
+    for (var i = 0; i < a.length; ++i)
+    {
+        var p=a[i].split('=', 2);
+        if (p.length == 1)
+            b[p[0]] = "";
+        else
+            b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+    }
+    return b;
+})(window.location.search.substr(1).split('&'))  
+      function setCookie(cname, cvalue, exdays) {
+      const d = new Date();
+      d.setTime(d.getTime() + (exdays*24*60*60*1000));
+      let expires = "expires="+d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+      }
+      function getCookie(cname) {
+      let name = cname + "=";
+      let ca = document.cookie.split(';');
+      for(let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+      }
+      }
+      return "";
+      }	
+      if(location.search.indexOf("utm_term")!= -1)
+      { 
+      let utm_content_fb = getCookie("utm_content_fb");       
+      let utm_content_val = qs["utm_term"];
+      let utm_content_val_gtm = qs["utm_gtm"]; //// GA Pixel  
+        let utm_content_gtm = getCookie("utm_content_gtm");
+            if (utm_content_fb == "" || utm_content_fb == undefined) 
+            {
+                      if(utm_content_val != '')
+                      {
+                      setCookie("utm_content_fb",utm_content_val,30);
+                      } 
+            }
+            else
+            {
+            setCookie("utm_content_fb",utm_content_val,30);
+            }
+
+          if (utm_content_gtm == "" || utm_content_gtm == undefined ) 
+            {
+                     
+					  if(utm_content_val_gtm != '')
+                      {
+                      setCookie("utm_content_gtm",utm_content_val_gtm,30);
+                      } 
+					  
+					  
+            }
+            else
+            {
+            setCookie("utm_content_gtm",utm_content_val_gtm,30);
+            }
+
+
+        
+      }
+
+
+if(location.search.indexOf("utm_source")!= -1)
+      { 
+      let utm_source = getCookie("vc-source");       
+      let utm_source_val = qs["utm_source"];      
+            if (utm_source == "" || utm_source == undefined) 
+            {
+                      if(utm_source_val != '')
+                      {
+                      setCookie("vc-source",utm_source_val,30);
+                      } 
+            }
+            else
+            {
+            setCookie("vc-source",utm_source_val,30);
+            }     
+
+
+        
+      }
+
+    
+if(location.search.indexOf("utm_medium")!= -1)
+      { 
+      let utm_medium = getCookie("vc-medium");       
+      let utm_medium_val = qs["utm_medium"];      
+            if (utm_medium == "" || utm_medium == undefined) 
+            {
+                      if(utm_medium_val != '')
+                      {
+                      setCookie("vc-medium",utm_medium_val,30);
+                      } 
+            }
+            else
+            {
+            setCookie("vc-medium",utm_medium_val,30);
+            }     
+
+
+        
+      }
+    if(location.search.indexOf("utm_campaign")!= -1)
+      { 
+      let utm_campaign = getCookie("vc-campaign");       
+      let utm_campaign_val = qs["utm_campaign"];      
+            if (utm_campaign == "" || utm_campaign == undefined) 
+            {
+                      if(utm_campaign_val != '')
+                      {
+                      setCookie("vc-campaign",utm_campaign_val,30);
+                      } 
+            }
+            else
+            {
+            setCookie("vc-campaign",utm_campaign_val,30);
+            }     
+
+
+        
+      }
+       if(location.search.indexOf("utm_term")!= -1)
+      { 
+      let utm_term = getCookie("vc-term");       
+      let utm_term_val = qs["utm_term"];      
+            if (utm_term == "" || utm_term == undefined) 
+            {
+                      if(utm_term_val != '')
+                      {
+                      setCookie("vc-term",utm_term_val,30);
+                      } 
+            }
+            else
+            {
+            setCookie("vc-term",utm_term_val,30);
+            } 
+        
+      }     
+    
+      </script>
+ <script>
+      //$.getJSON("https://api.ipify.org?format=json", function(data) {
+         
+ //$("#gfg").html(data.ip);
+        //setCookie("vc-ip",data.ip,30);
+       //})
+  </script>

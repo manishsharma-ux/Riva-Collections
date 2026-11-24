@@ -1,0 +1,87 @@
+<script type="application/javascript">
+checkoutBuyer = "https://fastrr-boost-ui.pickrr.com/";
+</script>
+<input type="hidden" value="rivacollections.com" id="sellerDomain"/>
+<link rel="stylesheet" href="https://fastrr-boost-ui.pickrr.com/assets/styles/shopify.css">
+<script src="https://fastrr-boost-ui.pickrr.com/assets/js/channels/shopify.js" defer></script>
+<script src="https://fastrr-boost-ui.pickrr.com/assets/js/channels/shiprocketMarketing.js"></script>
+<!-- <input type="hidden" value="percent" id="discountType"/>
+<input type="hidden" value="5" id="discValue"/> -->
+<input type="hidden" value="rz" id="template"/>
+<style>
+.sr-headless-checkout{
+     font-family: inherit;
+     font-size: 19px;
+     font-weight: 700;
+     letter-spacing: 1px;
+     border-radius:6px;
+     height: 52px;
+     background-color:rgb(0, 0, 0);
+}
+
+  .shiprocket-headless{
+    width:100%!important;
+  }
+
+
+/* 
+.sr-discount-label{
+  font-size:0px !important;
+}
+ .sr-discount-label:before{
+   content:"Extra ₹200 Off on Prepaid Orders";
+  font-size: 9px;
+    color: #000;
+    text-transform: none;
+    top: -8px;
+    left: 6px;
+    background-color: #53FF73;
+    border-radius: 3px;
+    padding: 0 10px;
+}
+.sr-discount-label:before {
+  padding:0;
+  padding-left:15px;
+}
+ */
+
+  
+</style>
+
+<!-- <script>
+// Select the node that will be observed for mutations
+let fastrrBtn = '<div id="headless-button" class="shiprocket-headless" data-type="mini-cart"></div>'
+let shopifybutton = '<button id="shopify-button" type="submit" is="loader-button" class="cart__checkout-button checkout-button button button--primary button--full" name="checkout"><span class="checkout-button__lock"></span>Checkout</button>'
+let buttonAdded = false
+let parsedBtnCode = new DOMParser().parseFromString(fastrrBtn, 'text/html').querySelectorAll('.shiprocket-headless')[0];
+const headlessNode = document.querySelector('html');
+// Options for the observer (which mutations to observe)
+const configuration = { attributes: true, childList: true, subtree: true };
+// Callback function to execute when mutations are observed
+const headlessCallback = (mutationList, observer) => {
+  for (const mutation of mutationList) {
+  let sidecart = document.querySelector('.mini-cart.drawer.drawer--large')
+    if(sidecart) {
+      if(!document.getElementById('headless-button')) {
+            if(Intl.DateTimeFormat().resolvedOptions().timeZone === "Asia/Calcutta") {
+        document.getElementById('fastrrButton').innerHTML = fastrrBtn
+            }
+        if(Intl.DateTimeFormat().resolvedOptions().timeZone === "Asia/Kolkata") {
+        document.getElementById('fastrrButton').innerHTML = fastrrBtn
+            }
+  }
+    if(!document.getElementById('shopify-button')) {
+            if(Intl.DateTimeFormat().resolvedOptions().timeZone != "Asia/Calcutta") {
+              if(Intl.DateTimeFormat().resolvedOptions().timeZone != "Asia/Kolkata") {
+        document.getElementById('nativeCheckoutButton').innerHTML = shopifybutton
+            }
+            }
+      }
+    }
+  }
+};
+// Create an observer instance linked to the callback function
+const observer1 = new MutationObserver(headlessCallback);
+// Start observing the target node for configured mutations
+observer1.observe(headlessNode, configuration);
+</script> -->
